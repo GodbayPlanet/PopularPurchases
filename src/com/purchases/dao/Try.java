@@ -3,6 +3,7 @@ package com.purchases.dao;
 import java.io.IOException;
 import java.util.List;
 
+import com.purchases.ehcache.PopularPurchasesServiceEhCache;
 import com.purchases.entyties.Product;
 import com.purchases.entyties.Purchase;
 import com.purchases.entyties.RecentPurchase;
@@ -34,7 +35,7 @@ public class Try {
 		// System.out.println(p);
 
 		PurchaseDAOImpl purc = new PurchaseDAOImpl();
-		String userName = "Nemnja";
+		String userName = "Laisha.Rohan";
 		
 		if (!user.isUserRegistred(userName))
 			System.out.println("User with userName " + userName + " does not exists.");
@@ -54,12 +55,28 @@ public class Try {
 
 		PurchaseDAOImpl p = new PurchaseDAOImpl();
 
-		List<RecentPurchase> list = p.getListOfRecentPurchase("Nemnja");
+		List<RecentPurchase> list = p.getListOfRecentPurchase("Laisha.Rohan");
 
 		if (!user.isUserRegistred(userName))
 			System.out.println("User with userName " + userName + " does not exists.");
 		else
 			list.forEach(i -> System.out.println(i));
+		
+		PopularPurchasesServiceEhCache pp = new PopularPurchasesServiceEhCache();
+		
+		List<RecentPurchase> rp = pp.getRecentPurchases("Laisha.Rohan");
 
+		if (!user.isUserRegistred(userName))
+			System.out.println("User with userName " + userName + " does not exists.");
+		else
+			rp.forEach(i -> System.out.println(i));
+		
+		List<RecentPurchase> rp1 = pp.getRecentPurchases("Laisha.Rohan");
+		
+		if (!user.isUserRegistred(userName))
+			System.out.println("User with userName " + userName + " does not exists.");
+		else
+			rp1.forEach(i -> System.out.println(i));
+		
 	}
 }

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.purchases.dao.UserDAOImpl;
 import com.purchases.ehcache.PopularPurchasesServiceEhCache;
 import com.purchases.entyties.RecentPurchase;
@@ -77,11 +78,13 @@ public class PopularPurchaseServlet extends HttpServlet {
 	 * Method return String representation of the JSON object for users in a pretty format.
 	 * @param usersJSON
 	 * @return
+	 * @throws IOException 
+	 * @throws JsonSyntaxException 
 	 */
-	public String getPrettyJSONOUsersObject(JSONObject usersJSON) {
+	public String getPrettyJSONOUsersObject() throws JsonSyntaxException, IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 		JsonParser jsonParser = new JsonParser();
-		JsonElement jsonElement = jsonParser.parse(usersJSON.toString());
+		JsonElement jsonElement = jsonParser.parse(getUsersJsonObject().toString());
 		String prettyJSON = gson.toJson(jsonElement);
 		return prettyJSON;
 	}
@@ -109,12 +112,16 @@ public class PopularPurchaseServlet extends HttpServlet {
 	 * Return JSONObject object with all users.
 	 * @param users
 	 * @return
+	 * @throws IOException 
 	 */
-	public JSONObject getUsersJsonObject(List<User> users) {
+	public JSONObject getUsersJsonObject() throws IOException {
+		UserDAOImpl userDao = new UserDAOImpl();
+		List<User> listOfUsers = userDao.getAllUsers();
+		
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
 		
-		users.forEach(user -> {
+		listOfUsers.forEach(user -> {
 			JSONObject newObject = new JSONObject();
 			newObject.put("user", user);
 			jsonArray.put(newObject);

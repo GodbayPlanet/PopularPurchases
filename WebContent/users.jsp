@@ -7,8 +7,9 @@
 <title>Users</title>
 </head>
 <body>
+	<jsp:useBean id="recentPurchases" class="com.purchases.controllers.PopularPurchaseServlet"></jsp:useBean>
 	
-	
+	${recentPurchases.getPrettyJSONOUsersObject()}
 	
 </body>
 </html>

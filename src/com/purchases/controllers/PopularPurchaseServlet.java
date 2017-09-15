@@ -3,7 +3,6 @@ package com.purchases.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +18,7 @@ import com.google.gson.JsonParser;
 import com.purchases.dao.UserDAOImpl;
 import com.purchases.ehcache.PopularPurchasesServiceEhCache;
 import com.purchases.entyties.RecentPurchase;
+import com.purchases.entyties.User;
 
 /**
  * Servlet implementation class PopularPurchaseServlet
@@ -52,27 +52,39 @@ public class PopularPurchaseServlet extends HttpServlet {
 			} else {
 				message = "User recently purchased products, and names of other users who recently purchases them.";
 				JSONObject recentPurchasesJSON = getJsonObject(getRecentPurchases(userName, limit));
-				prettyJSONObject = getPrettyJsonObject(recentPurchasesJSON);
+				prettyJSONObject = getPrettyJSONORecentPurchasebject(recentPurchasesJSON);
 			}
 			request.setAttribute("prettyJSONObject", prettyJSONObject);
 			request.setAttribute("message", message);
 			getServletContext().getRequestDispatcher(url).forward(request, response);
-		}
+		} 
 	}
 	
 	/**
-	 * Method return String representation of the JSON object in a pretty format.
+	 * Method return String representation of the JSON object for recent purchases in a pretty format.
 	 * @param recentPurchasesJSON
 	 * @return
 	 */
-	public String getPrettyJsonObject(JSONObject recentPurchasesJSON) {
+	public String getPrettyJSONORecentPurchasebject(JSONObject recentPurchasesJSON) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement = jsonParser.parse(recentPurchasesJSON.toString());
 		String pretty = gson.toJson(jsonElement);
 		return pretty;
 	}
-
+	
+	/**
+	 * Method return String representation of the JSON object for users in a pretty format.
+	 * @param usersJSON
+	 * @return
+	 */
+	public String getPrettyJSONOUsersObject(JSONObject usersJSON) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonElement = jsonParser.parse(usersJSON.toString());
+		String prettyJSON = gson.toJson(jsonElement);
+		return prettyJSON;
+	}
 	/**
 	 * Method returns JSON object that contain all products that are purchased by some user, and
 	 * the names of other users who recently purchased them.
@@ -81,16 +93,34 @@ public class PopularPurchaseServlet extends HttpServlet {
 	 */
 	public JSONObject getJsonObject(List<RecentPurchase> recentPurchases) {
 		JSONObject rootJsonObject = new JSONObject();
-		JSONArray JsonArray = new JSONArray();
+		JSONArray jsonArray = new JSONArray();
 		
 		recentPurchases.forEach(recentPurchase -> {
 			JSONObject newObject = new JSONObject();
 			newObject.put("product", recentPurchase.getProduct()).put("recent", recentPurchase.getUserNames());
-			JsonArray.put(newObject);
+			jsonArray.put(newObject);
 		});
 		
-		rootJsonObject.put("purchases", JsonArray);
+		rootJsonObject.put("purchases", jsonArray);
 		return rootJsonObject;
+	}
+	
+	/**
+	 * Return JSONObject object with all users.
+	 * @param users
+	 * @return
+	 */
+	public JSONObject getUsersJsonObject(List<User> users) {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		
+		users.forEach(user -> {
+			JSONObject newObject = new JSONObject();
+			newObject.put("user", user);
+			jsonArray.put(newObject);
+		});
+		jsonObject.put("users", jsonArray);
+		return jsonObject;
 	}
 
 	/**

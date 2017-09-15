@@ -64,8 +64,8 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public List<RecentPurchase> getListOfRecentPurchase(String userName) throws IOException {
-		List<Product> listOfProducts = getListOfProductsThatUserPurchase(userName, 5);
+	public List<RecentPurchase> getListOfRecentPurchase(String userName, int limit) throws IOException {
+		List<Product> listOfProducts = getListOfProductsThatUserPurchase(userName, limit);
 		Map<User, List<Product>> usersProducts = getallUsersWithTheirPurchases(userName);
 		List<RecentPurchase> listOfRecentPurchases = new ArrayList<>();
 

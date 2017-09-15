@@ -11,7 +11,16 @@ import net.sf.ehcache.Element;
 
 public class PopularPurchasesServiceEhCache {
 	
-	public List<RecentPurchase> getRecentPurchases(String userName) throws IOException {
+	/**
+	 * Method returns list of recent purchases for specified userName. If recent purchase is not
+	 * is the cache than we get recent purchases from the right page on the server. Otherwise we 
+	 * get recent purchases from the cache.
+	 * @param userName
+	 * @return
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
+	public List<RecentPurchase> getRecentPurchases(String userName, int limit) throws IOException {
 		
 		List<RecentPurchase> recentPurchases = null;
 		Cache cache = EHCacheManager.getCache();
@@ -20,7 +29,7 @@ public class PopularPurchasesServiceEhCache {
 		if (elementOfCache == null) {
 			System.out.println("cache miss");
 			PurchaseDAOImpl purchaseDao = new PurchaseDAOImpl();
-			recentPurchases = purchaseDao.getListOfRecentPurchase(userName);
+			recentPurchases = purchaseDao.getListOfRecentPurchase(userName, limit);
 			cache.put(new Element(userName, recentPurchases));
 		} else {
 			System.out.println("cache hit");
@@ -30,4 +39,6 @@ public class PopularPurchasesServiceEhCache {
 		}
 		return recentPurchases;
 	}
+	
+	
 }

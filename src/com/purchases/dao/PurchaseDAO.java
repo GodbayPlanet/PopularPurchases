@@ -29,12 +29,12 @@ public interface PurchaseDAO {
 	public List<Product> getListOfProductsThatUserPurchase(String userName, int limit) throws IOException;
 	
 	/**
-	 * Returns list of recent purchases that contain all inforamtion about products and list of all users 
-	 * who recentli also purchase same product.
+	 * Returns list of recent purchases that contain all information about products and list of all users 
+	 * who recently also purchase same product.
 	 * @param userName
 	 * @return
 	 * @throws IOException
 	 */
-	public List<RecentPurchase> getListOfRecentPurchase(String userName) throws IOException;
+	public List<RecentPurchase> getListOfRecentPurchase(String userName, int limit) throws IOException;
 
 }

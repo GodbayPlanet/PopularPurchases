@@ -6,8 +6,7 @@
 		diskSpoolBufferSizeMB="30" maxElementsOnDisk="10000000"
 		diskPersistent="false" diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU" statistics="true" />
-		
-		
+	
 	<cache name="recentPurchasesCache" maxElementsInMemory="1"
 		maxElementsOnDisk="1" eternal="false" overflowToDisk="true"
 		diskSpoolBufferSizeMB="20" timeToIdleSeconds="300" timeToLiveSeconds="600"

@@ -34,11 +34,13 @@ public class RecentPurchase {
 
 	@Override
 	public String toString() {
-		if (userNames == null || userNames.isEmpty())
-			return "RecentPurchase [product=" + product + " , There is no one who "
-					+ "recently purchase this product" + "]";
+		if (userNames == null || userNames.isEmpty()) {
+			userNames.add("[There is no one who "
+					+ "recently purchase this product" + "]");
+			return userNames.toString();
+		}
 		else
-			return "RecentPurchase [product=" + product + ", userNames=" + userNames.toString() + "]";
+			return "[" + product.toString() + ", userNames=" + userNames.toString() + "]";
 	}
 
 }

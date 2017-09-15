@@ -3,6 +3,8 @@ package com.purchases.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import javax.json.JsonObject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,34 +31,34 @@ public class PopularPurchaseServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//		response.setContentType("application/json");
-//		String action = request.getParameter("action");
-//		String url = "/popularPurchases.jsp";
-//		String message = "";
-//		
-//		if (action == null) {
-//			action = "recent_purchases"; // default action
-//		}
-//
-//		if (action.equals("recent_purchases")) {
-//			String userName = request.getParameter("username");
-//			int limit = Integer.parseInt(request.getParameter("limit"));
-//
-//			if (!isUserNameExists(userName)) {
-//				message = "User with usernme of " + userName + " was not found.";
-//			} else {
-//				message = "User recently purchased products, and names of other users who recently purchases them.";
-//				JsonObject recentPurchasesJSON = getJsonObject(getRecentPurchases(userName, limit));
-//				ObjectMapper mapper = new ObjectMapper();
-//				String recentPurchases = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(recentPurchasesJSON);
-//				request.setAttribute("recentPurchases", recentPurchases);
-//			}
-//			request.setAttribute("message", message);
-//			getServletContext().getRequestDispatcher(url).forward(request, response);
-//		}
-//	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("application/json");
+		String action = request.getParameter("action");
+		String url = "/popularPurchases.jsp";
+		String message = "";
+		
+		if (action == null) {
+			action = "recent_purchases"; // default action
+		}
+
+		if (action.equals("recent_purchases")) {
+			String userName = request.getParameter("username");
+			int limit = Integer.parseInt(request.getParameter("limit"));
+			String prettyJSONObject = null;
+			
+			if (!isUserNameExists(userName)) {
+				message = "User with usernme of " + userName + " was not found.";
+			} else {
+				message = "User recently purchased products, and names of other users who recently purchases them.";
+				JSONObject recentPurchasesJSON = getJsonObject(getRecentPurchases(userName, limit));
+				prettyJSONObject = getPrettyJsonObject(recentPurchasesJSON);
+			}
+			request.setAttribute("prettyJSONObject", prettyJSONObject);
+			request.setAttribute("message", message);
+			getServletContext().getRequestDispatcher(url).forward(request, response);
+		}
+	}
 	
 	/**
 	 * Method return String representation of the JSON object in a pretty format.

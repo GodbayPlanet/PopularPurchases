@@ -12,10 +12,10 @@
 	<c:choose>
 		<c:when test="${!recentPurchases.isUserNameExists(username)}">
 			${message}
+			<pre>${prettyJSONObject}</pre>
 		</c:when>
 		<c:otherwise>
-			${message} 
-			${recentPurchases}
+			<pre>${prettyJSONObject}</pre>
 		</c:otherwise>
 	</c:choose>
 </body>

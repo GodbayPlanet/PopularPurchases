@@ -3,15 +3,8 @@ package com.purchases.dao;
 import java.io.IOException;
 import java.util.List;
 
-import javax.json.JsonObject;
-
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.purchases.controllers.PopularPurchaseServlet;
 import com.purchases.ehcache.PopularPurchasesServiceEhCache;
 import com.purchases.entyties.Purchase;

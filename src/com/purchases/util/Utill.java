@@ -70,7 +70,6 @@ public class Utill {
 		try {
 			if (closeable != null) {
 				closeable.close();
-				System.out.println(closeable.getClass().getName() + " CLOSED!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace(System.err);

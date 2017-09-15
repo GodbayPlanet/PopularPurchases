@@ -97,6 +97,6 @@ public class Try {
 //		}
 		
 		
-		//http://localhost:8000/api/purchases/by_user/Brandt_Goodwin45
+		//http://localhost:8000/api/purchases/by_user/Hadley.Dooley46
 	}
 }

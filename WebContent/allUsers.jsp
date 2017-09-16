@@ -9,7 +9,7 @@
 <body>
 	<jsp:useBean id="recentPurchases" class="com.purchases.controllers.PopularPurchaseServlet"></jsp:useBean>
 	
-	${recentPurchases.getPrettyJSONOUsersObject()}
+	<pre>${recentPurchases.getPrettyJSONOUsersObject()}</pre>
 	
 </body>
 </html>

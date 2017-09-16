@@ -57,8 +57,8 @@ public class PopularPurchaseServlet extends HttpServlet {
 			}
 			request.setAttribute("prettyJSONObject", prettyJSONObject);
 			request.setAttribute("message", message);
-			getServletContext().getRequestDispatcher(url).forward(request, response);
 		} 
+		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 	
 	/**
